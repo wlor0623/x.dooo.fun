@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter第三方访问工具</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+  <div id="app" class="bg-white rounded-lg shadow-lg p-6 w-[800px]">
+    <h1 class="text-3xl font-bold text-center mb-4  text-gray-800">twitter/instagram社交媒体第三方访问</h1>
+    <!-- 平台切换 -->
+    <div class="mb-8">
+      <div class="flex justify-center space-x-4">
+        <button @click="activePlatform = 'twitter';username='elonmusk'"
+          :class="activePlatform === 'twitter' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'"
+          class="px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-md hover:shadow-lg">
+          Twitter
+        </button>
+        <button @click="activePlatform = 'instagram';username='instagram'"
+          :class="activePlatform === 'instagram' ? 'bg-pink-500 text-white' : 'bg-gray-200 text-gray-700'"
+          class="px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-md hover:shadow-lg">
+          Instagram
+        </button>
+      </div>
+    </div>
+
+    <!-- 网站选择网格 -->
+    <div class="mb-8">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        <button v-for="(site, index) in filteredSites" :key="index" @click="activeSite = index"
+          :class="activeSite === index ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg transform scale-105' : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md'"
+          class="py-3 px-4 rounded-lg font-medium transition-all duration-300 border border-gray-200">
+          {{ site.name }}
+        </button>
+      </div>
+    </div>
+
+    <!-- 输入框和按钮 -->
+    <div class="flex gap-3">
+      <input v-model="username" type="text"
+        class="flex-1 px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+        placeholder="输入用户名">
+      <button @click="goToSite"
+        class="px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300">
+        前往
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      data() {
+        return {
+          username: 'elonmusk',
+          activeSite: 0,
+          activePlatform: 'twitter',
+          platforms: {
+            twitter: [
+              // { name: 'nitter.net', url: 'https://nitter.net/' },
+              // { name: 'nitter.privacyredirect.com', url: 'https://nitter.privacyredirect.com/' },
+              // { name: 'twiiit', url: 'https://twiiit.com/' },
+              // { name: 'twitinfo', url: 'https://twitinfo.com/' }
+
+              { name: 'Nitter', url: 'https://nitter.net/' },
+              { name: 'Sotwe', url: 'https://www.sotwe.com/' },
+              { name: 'twicopy', url: 'https://twicopy.com/' },
+              { name: 'twstalker', url: 'https://twstalker.com/' },
+              { name: 'tiekoetter', url: 'https://nitter.tiekoetter.com/' },
+              { name: 'xcancel', url: 'https://xcancel.com/' },
+              { name: 'trabun', url: 'https://nuku.trabun.org/' },
+              { name: 'nitter.space', url: 'https://nitter.space/' },
+              { name: 'lightbrd', url: 'https://lightbrd.com/' },
+              { name: 'nitter.net', url: 'https://nitter.net/' },
+              { name: 'privacyredirect', url: 'https://nitter.privacyredirect.com/' },
+              { name: 'twiiit', url: 'https://twiiit.com/' },
+            ],
+            instagram: [
+              { name: 'imginn', url: 'https://imginn.com/' },
+              { name: 'pixnoy', url: 'https://www.pixnoy.com/profile/' }
+            ]
+          }
+        }
+      },
+      computed: {
+        filteredSites() {
+          return this.platforms[this.activePlatform];
+        }
+      },
+      methods: {
+        goToSite() {
+          if (this.username.trim()) {
+            const selectedSite = this.filteredSites[this.activeSite];
+            window.open(selectedSite.url + this.username.trim(),"_blank" )
+            // window.location.href = selectedSite.url + this.username.trim();
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>
